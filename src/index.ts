@@ -1,3 +1,3 @@
 import "./styles/main.scss";
-
-console.log("ts bundling works");
+import { DOMcrud } from "./ts/DOMcrud";
+import { container } from "./ts/incs";
