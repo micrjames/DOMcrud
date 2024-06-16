@@ -1,10 +1,13 @@
-import { IAttr, IEl } from "./iters";
+import { IEl } from "./iters";
+import { DOMCreate } from "./DOMcreate";
 
 export class DOMcrud {
    private parentEl: Element;
+   private domCreate: DOMCreate;
 
    constructor(context: Element) {
 	  this.parentEl = context;
+	  this.domCreate = new DOMCreate();
    }
 
    addEls(els: IEl[]) {
@@ -14,32 +17,9 @@ export class DOMcrud {
    }
    
    addEl(el: IEl) {
-	  const element = this.buildEl(el);
+	  const element = this.domCreate.buildEl(el);
 	  this.parentEl.appendChild(element);
-	  if(el.children) el.children.forEach((child: IEl) => {
-		 const childEl = this.buildEl(child);
-		 element.appendChild(childEl);
-
-		 // TODO: write method to add children recursively
-	  });
+	  this.domCreate.addChildren(element, el.children);
    }
 
-   private buildEl(el: IEl): Element {
-	  const element = document.createElement(el.which);                              
-	  if(el.attrs) this.addAttributes(element, el.attrs);
-	  if(el.text) this.addTextNode(element, el.text);
-
-	  return element;
-   }
-
-   private addAttributes(context: Element, attributes: IAttr[]) {
-	   attributes.forEach((attr: IAttr) => {
-		  if(attr) context.setAttribute(attr.attribute, attr.value);     
-	   });
-   }
-
-   private addTextNode(context: Element, text: string = "") {
-	   const elTxt = document.createTextNode(text);
-	   context.appendChild(elTxt);
-   }
 }
