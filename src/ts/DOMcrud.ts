@@ -21,5 +21,4 @@ export class DOMcrud {
 	  this.parentEl.appendChild(element);
 	  this.domCreate.addChildren(element, el.children);
    }
-
 }
