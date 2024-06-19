@@ -1,4 +1,5 @@
 import { DOMcrud } from "../src/ts/DOMcrud";
+import { IEl } from "../src/ts/iters";
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 require('@testing-library/jest-dom');
@@ -10,6 +11,7 @@ describe("The DOM", () => {
    let dom: typeof JSDOM;
    let document: Document;
    let container: Element;
+   let element: IEl;
    beforeAll(() => {
 	  const html = fs.readFileSync(path.resolve(__dirname, "..", 'src', 'template.html'), 'utf8');
 	  dom = new JSDOM(html, {runScripts: 'dangerously'});
@@ -20,7 +22,29 @@ describe("The DOM", () => {
    });
    describe("An element created within a page", () => {
 	  describe("Existing in the page.", () => {
-		 test.todo("Should not be undefined.");
+		 beforeAll(() => {
+			element = {
+			   which: "div",
+			};
+			/*
+			interface IAttr {
+			   attribute: string;
+			   value: string;
+			}
+
+			interface IEl {
+			   which: string;
+			   attrs: IAttr[];
+			   text: string;
+			   children: IEl[];
+			}
+			*/
+		 });
+		 test("Should not be undefined.", () => {
+			domCrud.addEl(element, document);
+			console.log(container.firstElementChild);
+			expect(container.firstElementChild).toBeDefined();
+		 });
 		 test.todo("Should have the correct attributes not be undefined.");
 		 test.todo("Should have children that are not undefined.");
 		 test.todo("Should have a text node that is not undefined.");

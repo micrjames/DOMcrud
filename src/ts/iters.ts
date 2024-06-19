@@ -5,7 +5,7 @@ export interface IAttr {
 
 export interface IEl {
    which: string;
-   attrs: IAttr[];
-   text: string;
-   children: IEl[];
+   attrs?: IAttr[];
+   text?: string;
+   children?: IEl[];
 }
