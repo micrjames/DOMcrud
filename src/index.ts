@@ -1,12 +1,23 @@
 import "./styles/main.scss";
 import { DOMcrud } from "./ts/DOMcrud";
 import { container } from "./ts/incs";
-import { IEl } from "./ts/iters";
 
 const domCrud = new DOMcrud(container);
 
-const element: IEl = {
+const element = {
    which: "div",
+   attrs: [{
+	  attribute: "class",
+	  value: "hidden"
+   }],
+   text: "some text",
+   children: [{
+	  which: "div",
+	  attrs: [{
+		 attribute: "class",
+		 value: "child"
+	  }]
+   }]
 };
 
 domCrud.addEl(element, document);

@@ -25,13 +25,20 @@ describe("The DOM", () => {
 		 beforeAll(() => {
 			element = {
 			   which: "div",
+			   attrs: [{
+				  attribute: "class",
+				  value: "hidden"
+			   }],
+			   text: "some text",
+			   children: [{
+				  which: "div",
+				  attrs: [{
+					 attribute: "class",
+					 value: "child"
+				  }]
+			   }]
 			};
 			/*
-			interface IAttr {
-			   attribute: string;
-			   value: string;
-			}
-
 			interface IEl {
 			   which: string;
 			   attrs: IAttr[];
@@ -39,15 +46,30 @@ describe("The DOM", () => {
 			   children: IEl[];
 			}
 			*/
-		 });
-		 test("Should not be undefined.", () => {
 			domCrud.addEl(element, document);
-			console.log(container.firstElementChild);
+		 });
+		 test("Should be defined.", () => {
 			expect(container.firstElementChild).toBeDefined();
 		 });
-		 test.todo("Should have the correct attributes not be undefined.");
-		 test.todo("Should have children that are not undefined.");
-		 test.todo("Should have a text node that is not undefined.");
+		 test("Should have attributes be defined.", () => {
+			for(const attr of container.firstElementChild.attributes) {
+			   expect(attr).toBeDefined();
+			}
+		 });
+		 test("Should have the correct number of attributes.", () => {
+		    expect(container.firstElementChild.attributes).toHaveLength(1); 	
+		 });
+		 test("Should have children that are defined.", () => {
+			for(const child of container.firstElementChild.children) {
+			   expect(child).toBeDefined();
+			}
+		 });
+		 test("Should have the correct number of children.", () => {
+			expect(container.firstElementChild.children).toHaveLength(1);
+		 });
+		 test("Should have a text node that is defined.", () => {
+			expect(container.firstChild.nodeName == "#text").toBeTruthy();
+		 });
 	  });
 	  describe("With internal structures defined", () => {
 		 test.todo("Should be appended to the 'container' parent element.");

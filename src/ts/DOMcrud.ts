@@ -17,7 +17,7 @@ export class DOMcrud {
    }
    
    addEl(el: IEl, document: Document) {
-	  const element = this._domCreate.buildEl(el, document);
+	  const element = this._domCreate.buildEl(this.parentEl, el, document);
 	  if(element) {
 		 this.parentEl?.appendChild(element);
 		 if(el.children) this._domCreate.addChildren(element, el.children, document);
