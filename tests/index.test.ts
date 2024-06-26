@@ -1,24 +1,12 @@
 import { DOMcrud } from "../src/ts/DOMcrud";
 import { IEl } from "../src/ts/iters";
-import { test_element_cfg } from "./incs";
-const jsdom = require("jsdom");
-const { JSDOM } = jsdom;
-require('@testing-library/jest-dom');
-const fs = require('fs');
-const path = require('path');
+import { test_element_cfg } from "./element_cfg"
+import { container, document } from "./incs";
 
 describe("The DOM", () => {
    let domCrud: DOMcrud; 
-   let dom: typeof JSDOM;
-   let document: Document;
-   let container: Element;
    let element: IEl;
    beforeAll(() => {
-	  const html = fs.readFileSync(path.resolve(__dirname, "..", 'src', 'template.html'), 'utf8');
-	  dom = new JSDOM(html, {runScripts: 'dangerously'});
-	  document = dom.window.document;
-      const body = document.body;
-	  container = body.firstElementChild;
 	  domCrud = new DOMcrud(container);
    });
    describe("An element created within a page", () => {
@@ -51,7 +39,8 @@ describe("The DOM", () => {
 		 });
 	  });
 	  describe("With internal structures defined", () => {
-		 test.todo("Should be appended to the 'container' parent element.");
+		 test("Should be appended to the 'container' parent element.", () => {
+		 });
 		 test.todo("Should have the correct attributes.");
 		 test.todo("Should have children appended to the elements.");
 		 test.todo("Should have a text node appended to the element.");
