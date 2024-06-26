@@ -1,5 +1,6 @@
 import { DOMcrud } from "../src/ts/DOMcrud";
 import { IEl } from "../src/ts/iters";
+import { test_element_cfg } from "./incs";
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 require('@testing-library/jest-dom');
@@ -23,29 +24,7 @@ describe("The DOM", () => {
    describe("An element created within a page", () => {
 	  describe("Existing in the page.", () => {
 		 beforeAll(() => {
-			element = {
-			   which: "div",
-			   attrs: [{
-				  attribute: "class",
-				  value: "hidden"
-			   }],
-			   text: "some text",
-			   children: [{
-				  which: "div",
-				  attrs: [{
-					 attribute: "class",
-					 value: "child"
-				  }]
-			   }]
-			};
-			/*
-			interface IEl {
-			   which: string;
-			   attrs: IAttr[];
-			   text: string;
-			   children: IEl[];
-			}
-			*/
+			element = test_element_cfg; 
 			domCrud.addEl(element, document);
 		 });
 		 test("Should be defined.", () => {
