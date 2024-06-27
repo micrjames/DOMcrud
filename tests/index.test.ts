@@ -5,45 +5,51 @@ import { container, document } from "./incs";
 
 describe("The DOM", () => {
    let domCrud: DOMcrud; 
-   let element: IEl;
+   let element_defn: IEl;
+   let element: Element; 
    beforeAll(() => {
 	  domCrud = new DOMcrud(container);
    });
    describe("An element created within a page", () => {
 	  describe("Existing in the page.", () => {
 		 beforeAll(() => {
-			element = test_element_cfg; 
-			domCrud.addEl(element, document);
+			element_defn = test_element_cfg; 
+			domCrud.addEl(element_defn, document);
+			element = container.firstElementChild;
 		 });
 		 test("Should be defined.", () => {
-			expect(container.firstElementChild).toBeDefined();
+			expect(element).toBeDefined();
 		 });
 		 test("Should have attributes be defined.", () => {
-			for(const attr of container.firstElementChild.attributes) {
-			   expect(attr).toBeDefined();
-			}
+			const attrsDoExist = element.hasAttributes();
+			expect(attrsDoExist).toBeTruthy();
 		 });
-		 test("Should have the correct number of attributes.", () => {
-		    expect(container.firstElementChild.attributes).toHaveLength(1); 	
+		 test("Should have as many attributes as defined in 'element_defn'.", () => {
+			const attrs = element.attributes;
+			const nElDefnAttrs = element_defn.attrs.length; 
+		    expect(attrs).toHaveLength(nElDefnAttrs); 
 		 });
-		 test("Should have children that are defined.", () => {
-			for(const child of container.firstElementChild.children) {
+		 test("Should have children be defined.", () => {
+			for(const child of element.children) {
 			   expect(child).toBeDefined();
 			}
 		 });
-		 test("Should have the correct number of children.", () => {
-			expect(container.firstElementChild.children).toHaveLength(1);
+		 test("Should have as many children as defined in 'element_defn'.", () => {
+			const children = element.children;
+			const nElDefnChildren = element_defn.children.length; 
+			expect(children).toHaveLength(nElDefnChildren);
 		 });
 		 test("Should have a text node that is defined.", () => {
-			expect(container.firstChild.nodeName == "#text").toBeTruthy();
+			const textNode = container.firstChild;
+			expect(textNode).toBeDefined();
 		 });
 	  });
 	  describe("With internal structures defined", () => {
-		 test("Should be appended to the 'container' parent element.", () => {
-		 });
+		 test.todo("Should be appended to the 'container' parent element.");
 		 test.todo("Should have the correct attributes.");
 		 test.todo("Should have children appended to the elements.");
 		 test.todo("Should have a text node appended to the element.");
+		 test.todo("Should have a text node with the correct text.");
 	  });
    });
    describe("Elements created within a page", () => {

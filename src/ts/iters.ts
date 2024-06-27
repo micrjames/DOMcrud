@@ -1,5 +1,5 @@
 export interface IAttr {
-   attribute: string;
+   name: string;
    value: string;
 }
 

@@ -4,20 +4,20 @@ import { container } from "./ts/incs";
 
 const domCrud = new DOMcrud(container);
 
-const element = {
+const element_defn = {
    which: "div",
    attrs: [{
-	  attribute: "class",
+	  name: "class",
 	  value: "hidden"
    }],
    text: "some text",
    children: [{
 	  which: "div",
 	  attrs: [{
-		 attribute: "class",
+		 name: "class",
 		 value: "child"
 	  }]
    }]
 };
 
-domCrud.addEl(element, document);
+domCrud.addEl(element_defn, document);

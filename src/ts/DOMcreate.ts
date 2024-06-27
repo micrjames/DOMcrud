@@ -27,7 +27,7 @@ export class DOMCreate {
 
    addAttributes(context: (Element | undefined), attributes: IAttr[]) {
 	   attributes.forEach((attr: IAttr) => {
-		  if(attr) context?.setAttribute(attr.attribute, attr.value);     
+		  if(attr) context?.setAttribute(attr.name, attr.value);     
 	   });
    }
 
