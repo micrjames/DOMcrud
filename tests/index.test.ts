@@ -46,24 +46,29 @@ describe("The DOM", () => {
 	  });
 	  describe("With internal structures defined", () => {
 		 test.todo("Should be appended to the 'container' parent element.");
-		 test.todo("Should have the correct attributes.");
-		 test.todo("Should have children appended to the elements.");
+		 test.todo("Should have the attributes set in 'element_defn'.");
+		 test.todo("Should have the children appended to the element.");
+		 test.todo("Should have the children appended to the element as set in 'element_defn'.");
 		 test.todo("Should have a text node appended to the element.");
-		 test.todo("Should have a text node with the correct text.");
+		 test.todo("Should have a text node with the text defined in 'element_defn'.");
 	  });
    });
    describe("Elements created within a page", () => {
-	  describe("Should all exist in the page.", () => {
-		 test.todo("Should all not be undefined.");
-		 test.todo("Should all have the correct attributes not be undefined.");
-		 test.todo("Should all have children that are not undefined.");
-		 test.todo("Should all have a text node that is not undefined.");
+	  describe("All existing in the page.", () => {
+		 test.todo("Should all be defined.");
+		 test.todo("Should all have attributes be defined.");
+		 test.todo("Should have as many attributes as defined in 'element_defn'.");
+		 test.todo("Should have children be defined.");
+		 test.todo("Should have as many children as defined in 'element_defn'.");
+		 test.todo("Should have a text node that is defined.");
 	  });
-	  describe("With internal structures defined", () => {
+	  describe("All with internal structures defined", () => {
 		 test.todo("Should all be appended to the 'container' parent element.");
-		 test.todo("Should all have the correct attributes.");
-		 test.todo("Should all have children appended to the elements.");
+		 test.todo("Should all have the attributes set in 'element_defn'.");
+		 test.todo("Should all have the children appended to the element.");
+		 test.todo("Should all have the children appended to the element as set in 'element_defn'.");
 		 test.todo("Should all have a text node appended to the element.");
+		 test.todo("Should all have a text node with the text defined in 'element_defn'.");
 	  });
    });
 });
