@@ -9,3 +9,7 @@ export interface IEl {
    text?: string;
    children?: IEl[];
 }
+
+export interface IAttrObj {
+   [prop: string]: string;
+};
