@@ -3,6 +3,7 @@ import { IAttr, IEl, IAttrObj } from "../src/ts/iters";
 import { test_element_cfg } from "./element_cfg"
 import { container, document } from "./incs";
 import { Range } from "../../Range/Range";
+import { Utils } from "../src/ts/utils";
 
 describe("The DOM", () => {
    describe("An element created within a page", () => {
@@ -59,9 +60,7 @@ describe("The DOM", () => {
 		 test("Should have the attributes set in 'element_defn'.", () => {
 			let attrObjs: IAttrObj[] = [];
 			rangeItNums.forEach(idx => {
-			   attrObjs = [{
-				  [attrs[idx].name]: attrs[idx].value 
-			   }, ...attrObjs];
+			   attrObjs = Utils.attrToObjs(attrObjs, attrs[idx]);
 			});
 			rangeItNums.forEach(idx => {
 			   expect(attrObjs[idx]).toHaveProperty(elDefnAttrs[idx].name, elDefnAttrs[idx].value);
@@ -76,9 +75,7 @@ describe("The DOM", () => {
 			const children_defn = element_defn.children;
 			let childAttrObjs: IAttrObj[] = [];
 			rangeItNums.forEach(idx => {
-			    childAttrObjs = [{
-				   [children[idx].attributes[idx].name]: children[idx].attributes[idx].value
-				}, ...childAttrObjs];
+			    childAttrObjs = Utils.attrToObjs(childAttrObjs, children[idx].attributes[idx])
 			});
 			rangeItNums.forEach(idx => {
 			   const upperedWhichNode = children_defn[idx].which.toUpperCase();
