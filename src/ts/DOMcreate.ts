@@ -2,7 +2,7 @@ import { IAttr, IEl } from "./iters";
 
 export class DOMCreate {
    buildEl(context: (Element | null), el: (IEl | undefined), document: Document): (Element | undefined) {
-	  let element;
+	  let element: (Element | undefined);
 	  if(el) {
 		 element = document.createElement(el.which);                              
 		 if(document) {

@@ -15,4 +15,18 @@ export class Utils {
 		 Utils.attrToObj(attr)
 	  , ...arr];
    }
+
+   static enumChildren(context: Element): (Element | null | undefined)[] {
+	  let elements: (Element | null | undefined)[] = [];
+	  let elChild: (Element | null | undefined); 
+
+	  elChild = context.firstElementChild;
+
+	  do {
+		 elements = [elChild, ...elements];
+		 elChild = elChild?.nextElementSibling;
+	  } while(elChild !== context.lastChild);
+
+	  return elements;
+   }
 }

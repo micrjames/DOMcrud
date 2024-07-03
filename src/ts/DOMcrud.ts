@@ -23,8 +23,4 @@ export class DOMcrud {
 		 if(el.children) this._domCreate.addChildren(element, el.children, document);
 	  }
    }
-
-   get domCreate(): DOMCreate {
-	  return this._domCreate;
-   }
 }

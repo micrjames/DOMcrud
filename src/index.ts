@@ -19,5 +19,10 @@ const element_defn = {
 	  }]
    }]
 };
+export const elements_defn = [
+   element_defn,
+   element_defn,
+   element_defn
+];
 
-domCrud.addEl(element_defn, document);
+domCrud.addEls(elements_defn, document);

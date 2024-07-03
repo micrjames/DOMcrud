@@ -1,6 +1,6 @@
 import { DOMcrud } from "../src/ts/DOMcrud";
 import { IAttr, IEl, IAttrObj } from "../src/ts/iters";
-import { test_element_cfg } from "./element_cfg"
+import { test_element_cfg, test_elements_cfg } from "./element_cfgs"
 import { container, document } from "./incs";
 import { Range } from "../../Range/Range";
 import { Utils } from "../src/ts/utils";
@@ -95,10 +95,32 @@ describe("The DOM", () => {
 	  });
    });
    describe("Elements created within a page", () => {
+	  let domCrud: DOMcrud; 
+	  let element_defns: IEl[];
+	  let elements: Element[]; 
+	  let elDefnsAttrs: IAttr[][];
+	  beforeAll(() => {
+		 domCrud = new DOMcrud(container);
+		 element_defns = test_elements_cfg;
+		 domCrud.addEls(element_defns, document);
+		 elements = Utils.enumChildren(container);
+		 elDefnsAttrs = element_defn.attrs; 
+	  });
 	  describe("All existing in the page.", () => {
-		 test.todo("Should all be defined.");
-		 test.todo("Should all have attributes be defined.");
-		 test.todo("Should have as many attributes as defined in 'element_defn'.");
+		 test("Should all be defined.", () => {
+			for(const element of elements)
+			   expect(element).toBeDefined();
+		 });
+		 test("Should all have attributes be defined.", () => {
+			for(const element of elements) {
+			   const attrsDoExist = element.hasAttributes();
+			   expect(attrsDoExist).toBeTruthy();
+			}
+		 });
+		 test("Should have as many attributes as defined in 'element_defn'.", () => {
+			const nElDefnAttrs = elDefnAttrs.length; 
+		    expect(attrs).toHaveLength(nElDefnAttrs); 
+		 });
 		 test.todo("Should have children be defined.");
 		 test.todo("Should have as many children as defined in 'element_defn'.");
 		 test.todo("Should have a text node that is defined.");

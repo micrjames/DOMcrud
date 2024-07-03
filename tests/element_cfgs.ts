@@ -13,3 +13,9 @@ export const test_element_cfg = {
 	  }]
    }]
 };
+
+export const test_elements_cfg = [
+   test_element_cfg,
+   test_element_cfg,
+   test_element_cfg
+];
