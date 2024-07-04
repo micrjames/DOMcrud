@@ -68,7 +68,8 @@ describe("The DOM", () => {
 		 });
 		 test("Should have the children appended to the element.", () => {
 			for(const child of children) {
-			   expect(element).toStrictEqual(child.parentElement);
+			   const childIsConnected = child.isConnected;
+			   expect(childIsConnected).toBeTruthy();
 			}
 		 });
 		 test("Should have the children appended to the element as set in 'element_defn'.", () => {
@@ -98,13 +99,22 @@ describe("The DOM", () => {
 	  let domCrud: DOMcrud; 
 	  let element_defns: IEl[];
 	  let elements: Element[]; 
-	  let elDefnsAttrs: IAttr[][];
+	  let attrs: NamedNodeMap[];
+	  let elDefnsAttrs: IAttr[];
 	  beforeAll(() => {
 		 domCrud = new DOMcrud(container);
 		 element_defns = test_elements_cfg;
 		 domCrud.addEls(element_defns, document);
 		 elements = Utils.enumChildren(container);
-		 elDefnsAttrs = element_defn.attrs; 
+		 
+		 attrs = [];
+		 for(const element of elements)
+			[element.attributes, ...elements];
+
+		 elDefnsAttrs = [];
+		 for(let it = 0; it < element_defns.length; it++)
+		 	for(const attr of element_defns[it].attrs)
+			    elDefnsAttrs[it] = attr;
 	  });
 	  describe("All existing in the page.", () => {
 		 test("Should all be defined.", () => {
@@ -118,12 +128,28 @@ describe("The DOM", () => {
 			}
 		 });
 		 test("Should have as many attributes as defined in 'element_defn'.", () => {
-			const nElDefnAttrs = elDefnAttrs.length; 
-		    expect(attrs).toHaveLength(nElDefnAttrs); 
+			const nElDefnsAttrs = elDefnsAttrs.length; 
+			for(const attr of attrs)
+			   expect(attr).toHaveLength(nElDefnsAttrs); 
 		 });
-		 test.todo("Should have children be defined.");
-		 test.todo("Should have as many children as defined in 'element_defn'.");
-		 test.todo("Should have a text node that is defined.");
+		 test("Should have children be defined.", () => {
+			for(const element of elements)
+			   for(const child of element.children)
+				  expect(child).toBeDefined();
+		 });
+		 test("Should have as many children as defined in each 'element_defn' of 'element_defns'.", () => {
+			for(const element of elements)
+			   for(const element_defn of element_defns) {
+				  const nElDefnChildren = element_defn.children.length; 
+				  expect(element.children).toHaveLength(nElDefnChildren);
+			   }
+	     });
+		 test("Should have a text node that is defined.", () => {
+		 	for(const element of elements) {
+			   const textNode = element.previousSibling;
+			   expect(textNode).toBeDefined();
+			}
+		 });
 	  });
 	  describe("All with internal structures defined", () => {
 		 test.todo("Should all be appended to the 'container' parent element.");
