@@ -79,7 +79,7 @@ describe("The DOM", () => {
 			const children_defn = element_defn.children;
 			let childAttrObjs: IAttrObj[] = [];
 			rangeItNums.forEach(idx => {
-			    childAttrObjs = Utils.attrToObjs(childAttrObjs, domTypes.children[idx].attributes[idx])
+			    childAttrObjs = Utils.attrToObjs(childAttrObjs, domTypes.children[idx].attributes[idx]);
 			});
 			rangeItNums.forEach(idx => {
 			   const upperedWhichNode = children_defn[idx].which.toUpperCase();
@@ -116,7 +116,7 @@ describe("The DOM", () => {
 		 
 		 attrs = [];
 		 for(const element of elements)
-			[element.attributes, ...elements];
+			attrs = [element.attributes, ...attrs];
 
 		 elDefnsAttrs = [];
 		 for(let it = 0; it < element_defns.length; it++)
@@ -138,8 +138,7 @@ describe("The DOM", () => {
 		 });
 		 test("Should have as many attributes as defined in 'element_defn'.", () => {
 			const nElDefnsAttrs = elDefnsAttrs.length; 
-			for(const attr of attrs)
-			   expect(attr).toHaveLength(nElDefnsAttrs); 
+			expect(attrs).toHaveLength(nElDefnsAttrs); 
 		 });
 		 test("Should have children be defined.", () => {
 			for(const element of elements)
@@ -168,6 +167,11 @@ describe("The DOM", () => {
 			}
 		 });
 		 test("Should all have the attributes set in 'element_defn'.", () => {
+			for(const attr of attrs)
+			   for(const attribute of attr)
+				  console.log(attribute.name, attribute.value);
+			for(const elDefnsAttr of elDefnsAttrs)
+			   console.log(elDefnsAttr.name, elDefnsAttr.value);
 			/*
 			let attrObjs: IAttrObj[] = [];
 			rangeItNums.forEach(idx => {
