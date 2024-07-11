@@ -108,11 +108,13 @@ describe("The DOM", () => {
 	  let attrs: NamedNodeMap[];
 	  let elDefnsAttrs: Attr[][];
 	  let rangeItNums: number[];
+	  let children: HTMLCollection[];
 	  beforeAll(() => {
 		 domCrud = new DOMcrud(container);
 		 element_defns = test_elements_cfg;
 		 domCrud.addEls(element_defns, document);
 		 elements = Utils.enumChildren(container);
+		 children = [];
 		 
 		 attrs = [];
 		 for(const element of elements)
@@ -127,6 +129,9 @@ describe("The DOM", () => {
 		 }
 
 		 rangeItNums = [...new Range(attrs.length)];
+
+		 for(const element of elements)
+			children = [element.children, ...children];
 	  });
 	  describe("All existing in the page.", () => {
 		 test("Should all be defined.", () => {
@@ -170,15 +175,67 @@ describe("The DOM", () => {
 			}
 		 });
 		 test("Should all have the attributes set in 'element_defns'.", () => {
-			for(const attr of attrs)
-			   for(const attribute of attr)
-				  console.log(attribute.name, attribute.value);
-			console.log(elDefnsAttrs);
+			let attrsObjs: IAttrObj[][] = [];
+			for(const attr of attrs) {
+			   let attrObjs: IAttrObj[] = [];
+			   rangeItNums.forEach(idx => {
+				  if(attr[idx]) {
+					 attrObjs = Utils.attrToObjs(attrObjs, attr[idx]);
+				  }
+			   });
+			   attrsObjs = [attrObjs, ...attrsObjs];
+			}
+			  
+			for(const attrObjs of attrsObjs) 
+			   for(const attrObj of attrObjs) {
+				  for(const elDefnAttrs of elDefnsAttrs)
+					 for(const attr of elDefnAttrs) {
+						expect(attrObj).toHaveProperty(attr.name, attr.value);
+					 }
+			   }
 		 });
-		 test.todo("Should all have the children appended to the element.");
-		 test.todo("Should all have the children appended to the element as set in 'element_defns'.");
-		 test.todo("Should all have a text node appended to the container.");
-		 test.todo("Should all have a text node with the text defined in 'element_defns'.");
+		 test("Should all have the children appended to the elements.", () => {
+			for(const element of elements) {
+			   for(const child of element.children) {
+				  const childIsConnected = child.isConnected;
+				  expect(childIsConnected).toBeTruthy();
+			   }
+			}
+		 });
+		 test("Should all have the children appended to the element as set in 'element_defns'.", () => {
+			let childAttrsObjs: IAttrObj[][] = [];
+			for(const childrenColl of children) {
+			   for(const child of childrenColl) {
+				  let childAttrObjs: IAttrObj[] = [];
+				  for(const attr of child.attributes)
+					 childAttrObjs = Utils.attrToObjs(childAttrObjs, attr);
+				  childAttrsObjs = [childAttrObjs, ...childAttrsObjs];
+			   }
+			}
+			for(const childAttrObjs of childAttrsObjs)
+			   for(const childAttrObj of childAttrObjs)
+				  for(const elDefnAttrs of elDefnsAttrs)
+					 for(const elDefnAttr of elDefnAttrs)
+						expect(childAttrObj).toHaveProperty(elDefnAttr.name, elDefnAttr.value);
+		 });
+		 test("Should all have a text node appended to the container.", () => {
+			for(const element of elements) {
+			   const textNode = element.previousSibling;
+			   const isTextNodeConnected = textNode.isConnected;
+			   expect(isTextNodeConnected).toBeTruthy();
+			}
+	     });
+		 test("Should all have a text node with the text defined in 'element_defns'.", () => {
+			for(const element of elements) {
+			   const textNode = element.previousSibling;
+			   const textNodeText = textNode.textContent;
+
+			   for(const element_defn of element_defns) {
+				  const elDefnText = element_defn.text;
+				  expect(textNodeText).toBe(elDefnText);
+			   }
+			}
+		 });
 	  });
    });
 });
