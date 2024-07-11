@@ -1,11 +1,6 @@
-export interface IAttr {
-   name: string;
-   value: string;
-}
-
 export interface IEl {
    which: string;
-   attrs?: IAttr[];
+   attrs?: Attr[];
    text?: string;
    children?: IEl[];
 }

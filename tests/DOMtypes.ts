@@ -1,8 +1,6 @@
-import { IAttr } from "../src/ts/iters";
-
 export interface DOMtypes {
    attrs: NamedNodeMap;
-   elDefnAttrs: IAttr[];
+   elDefnAttrs: Attr[];
    children: HTMLCollection;
    textNode: Node;
 }

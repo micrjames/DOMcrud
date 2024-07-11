@@ -1,6 +1,6 @@
 import { DOMcrud } from "../src/ts/DOMcrud";
 import { DOMtypes } from "./DOMtypes";
-import { IAttr, IEl, IAttrObj } from "../src/ts/iters";
+import { IEl, IAttrObj } from "../src/ts/iters";
 import { test_element_cfg, test_elements_cfg } from "./element_cfgs"
 import { container, document } from "./incs";
 import { Range } from "../../Range/Range";
@@ -106,7 +106,7 @@ describe("The DOM", () => {
 	  let element_defns: IEl[];
 	  let elements: Element[]; 
 	  let attrs: NamedNodeMap[];
-	  let elDefnsAttrs: IAttr[];
+	  let elDefnsAttrs: Attr[][];
 	  let rangeItNums: number[];
 	  beforeAll(() => {
 		 domCrud = new DOMcrud(container);
@@ -119,9 +119,12 @@ describe("The DOM", () => {
 			attrs = [element.attributes, ...attrs];
 
 		 elDefnsAttrs = [];
-		 for(let it = 0; it < element_defns.length; it++)
-		 	for(const attr of element_defns[it].attrs)
-			    elDefnsAttrs[it] = attr;
+		 for(const element_defn of element_defns) {
+			let edAttrs: Attr[] = [];
+			for(const attrs of element_defn.attrs)
+			   edAttrs = [attrs, ...edAttrs];
+			elDefnsAttrs = [edAttrs, ...elDefnsAttrs];
+		 }
 
 		 rangeItNums = [...new Range(attrs.length)];
 	  });
@@ -166,26 +169,16 @@ describe("The DOM", () => {
 			   expect(elementIsConnected).toBeTruthy();
 			}
 		 });
-		 test("Should all have the attributes set in 'element_defn'.", () => {
+		 test("Should all have the attributes set in 'element_defns'.", () => {
 			for(const attr of attrs)
 			   for(const attribute of attr)
 				  console.log(attribute.name, attribute.value);
-			for(const elDefnsAttr of elDefnsAttrs)
-			   console.log(elDefnsAttr.name, elDefnsAttr.value);
-			/*
-			let attrObjs: IAttrObj[] = [];
-			rangeItNums.forEach(idx => {
-			   attrObjs = Utils.attrToObjs(attrObjs, attrs[idx]);
-			});
-			rangeItNums.forEach(idx => {
-			   expect(attrObjs[idx]).toHaveProperty(elDefnAttrs[idx].name, elDefnAttrs[idx].value);
-			});
-			*/
+			console.log(elDefnsAttrs);
 		 });
 		 test.todo("Should all have the children appended to the element.");
-		 test.todo("Should all have the children appended to the element as set in 'element_defn'.");
+		 test.todo("Should all have the children appended to the element as set in 'element_defns'.");
 		 test.todo("Should all have a text node appended to the container.");
-		 test.todo("Should all have a text node with the text defined in 'element_defn'.");
+		 test.todo("Should all have a text node with the text defined in 'element_defns'.");
 	  });
    });
 });
