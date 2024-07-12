@@ -15,7 +15,7 @@ describe("The DOM", () => {
 	  let element: Element;
 	  beforeAll(() => {
 		 element_defn = test_element_cfg;
-		 domCrud = new DOMcrud(container),
+		 domCrud = new DOMcrud(container);
 		 domCrud.addEl(element_defn, document);
 		 element = container.firstElementChild,
 		 domTypes = {
@@ -26,7 +26,7 @@ describe("The DOM", () => {
 		 };
 		 rangeItNums = [...new Range(domTypes.attrs.length)];
 	  });
-	  describe("Existing in the page.", () => {
+	  describe("Existing in the page", () => {
 		 test("Should be defined.", () => {
 			expect(element).toBeDefined();
 		 });
@@ -144,7 +144,7 @@ describe("The DOM", () => {
 			   expect(attrsDoExist).toBeTruthy();
 			}
 		 });
-		 test("Should have as many attributes as defined in 'element_defn'.", () => {
+		 test("Should have as many attributes as defined in 'element_defns'.", () => {
 			const nElDefnsAttrs = elDefnsAttrs.length; 
 			expect(attrs).toHaveLength(nElDefnsAttrs); 
 		 });
@@ -160,7 +160,7 @@ describe("The DOM", () => {
 				  expect(element.children).toHaveLength(nElDefnChildren);
 			   }
 	     });
-		 test("Should have a text node that is defined.", () => {
+		 test("Should have textnodes that are defined.", () => {
 		 	for(const element of elements) {
 			   const textNode = element.previousSibling;
 			   expect(textNode).toBeDefined();
@@ -218,14 +218,14 @@ describe("The DOM", () => {
 					 for(const elDefnAttr of elDefnAttrs)
 						expect(childAttrObj).toHaveProperty(elDefnAttr.name, elDefnAttr.value);
 		 });
-		 test("Should all have a text node appended to the container.", () => {
+		 test("Should all have textnodes appended to the container.", () => {
 			for(const element of elements) {
 			   const textNode = element.previousSibling;
 			   const isTextNodeConnected = textNode.isConnected;
 			   expect(isTextNodeConnected).toBeTruthy();
 			}
 	     });
-		 test("Should all have a text node with the text defined in 'element_defns'.", () => {
+		 test("Should all have textnodes with the text defined in 'element_defns'.", () => {
 			for(const element of elements) {
 			   const textNode = element.previousSibling;
 			   const textNodeText = textNode.textContent;
