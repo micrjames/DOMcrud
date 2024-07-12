@@ -1,4 +1,4 @@
-import { IAttr, IEl } from "./iters";
+import { IEl } from "./iters";
 
 export class DOMCreate {
    buildEl(context: (Element | null), el: (IEl | undefined), document: Document): (Element | undefined) {
@@ -25,8 +25,8 @@ export class DOMCreate {
 	  }
    }
 
-   addAttributes(context: (Element | undefined), attributes: IAttr[]) {
-	   attributes.forEach((attr: IAttr) => {
+   addAttributes(context: (Element | undefined), attributes: Attr[]) {
+	   attributes.forEach((attr: Attr) => {
 		  if(attr) context?.setAttribute(attr.name, attr.value);     
 	   });
    }
