@@ -1,5 +1,5 @@
 import { DOMcrud } from "../src/ts/DOMcrud";
-import { DOMtypes } from "./DOMtypes";
+import { DOMtype, DOMtypes } from "./DOMtypes";
 import { IEl, IAttrObj } from "../src/ts/iters";
 import { test_element_cfg, test_elements_cfg } from "./element_cfgs"
 import { container, document } from "./incs";
@@ -9,22 +9,22 @@ import { Utils } from "../src/ts/utils";
 describe("The DOM", () => {
    describe("An element created within a page", () => {
 	  let domCrud: DOMcrud;
-	  let rangeItNums: number[];
 	  let element_defn: IEl;
-	  let domTypes: DOMtypes;
+	  let domType: DOMtype;
 	  let element: Element;
+	  let rangeItNums: number[];
 	  beforeAll(() => {
-		 element_defn = test_element_cfg;
 		 domCrud = new DOMcrud(container);
 		 domCrud.addEl(element_defn, document);
+		 element_defn = test_element_cfg;
 		 element = container.firstElementChild,
-		 domTypes = {
+		 domType = {
 			attrs: element.attributes,
 			elDefnAttrs: element_defn.attrs, 
 			textNode: container.firstChild,
 			children: element.children
 		 };
-		 rangeItNums = [...new Range(domTypes.attrs.length)];
+		 rangeItNums = [...new Range(domType.attrs.length)];
 	  });
 	  describe("Existing in the page", () => {
 		 test("Should be defined.", () => {
@@ -35,21 +35,20 @@ describe("The DOM", () => {
 			expect(attrsDoExist).toBeTruthy();
 		 });
 		 test("Should have as many attributes as defined in 'element_defn'.", () => {
-			const nElDefnAttrs = domTypes.elDefnAttrs.length; 
-		    expect(domTypes.attrs).toHaveLength(nElDefnAttrs); 
+			const nElDefnAttrs = domType.elDefnAttrs.length; 
+		    expect(domType.attrs).toHaveLength(nElDefnAttrs); 
 		 });
 		 test("Should have children be defined.", () => {
-			for(const child of domTypes.children) {
+			for(const child of domType.children) {
 			   expect(child).toBeDefined();
 			}
 		 });
 		 test("Should have as many children as defined in 'element_defn'.", () => {
 			const nElDefnChildren = element_defn.children.length; 
-			expect(domTypes.children).toHaveLength(nElDefnChildren);
+			expect(domType.children).toHaveLength(nElDefnChildren);
 		 });
 		 test("Should have a text node that is defined.", () => {
-			const textNode = container.firstChild;
-			expect(textNode).toBeDefined();
+			expect(domType.textNode).toBeDefined();
 		 });
 	  });
 	  describe("With internal structures defined", () => {
@@ -60,17 +59,17 @@ describe("The DOM", () => {
 		 test("Should have the attributes set in 'element_defn'.", () => {
 			let attrObjs: IAttrObj[] = [];
 			rangeItNums.forEach(idx => {
-			   attrObjs = Utils.attrToObjs(attrObjs, domTypes.attrs[idx]);
+			   attrObjs = Utils.attrToObjs(attrObjs, domType.attrs[idx]);
 			});
 			rangeItNums.forEach(idx => {
 			   expect(attrObjs[idx]).toHaveProperty(
-				  domTypes.elDefnAttrs[idx].name,
-				  domTypes.elDefnAttrs[idx].value
+				  domType.elDefnAttrs[idx].name,
+				  domType.elDefnAttrs[idx].value
 			   );
 			});
 		 });
 		 test("Should have the children appended to the element.", () => {
-			for(const child of domTypes.children) {
+			for(const child of domType.children) {
 			   const childIsConnected = child.isConnected;
 			   expect(childIsConnected).toBeTruthy();
 			}
@@ -79,7 +78,7 @@ describe("The DOM", () => {
 			const children_defn = element_defn.children;
 			let childAttrObjs: IAttrObj[] = [];
 			rangeItNums.forEach(idx => {
-			    childAttrObjs = Utils.attrToObjs(childAttrObjs, domTypes.children[idx].attributes[idx]);
+			    childAttrObjs = Utils.attrToObjs(childAttrObjs, domType.children[idx].attributes[idx]);
 			});
 			rangeItNums.forEach(idx => {
 			   const upperedWhichNode = children_defn[idx].which.toUpperCase();
@@ -87,15 +86,15 @@ describe("The DOM", () => {
 				  children_defn[idx].attrs[idx].name,
 				  children_defn[idx].attrs[idx].value
 			   );
-			   expect(domTypes.children[idx].nodeName).toBe(upperedWhichNode);
+			   expect(domType.children[idx].nodeName).toBe(upperedWhichNode);
 			});
 		 });
 		 test("Should have a text node appended to the container.", () => {
-			const isTextNodeConnected = domTypes.textNode.isConnected;
+			const isTextNodeConnected = domType.textNode.isConnected;
 			expect(isTextNodeConnected).toBeTruthy();
 		 });
 		 test("Should have a text node with the text defined in 'element_defn'.", () => {
-			const textNodeText = domTypes.textNode.nextSibling.textContent;
+			const textNodeText = domType.textNode.nextSibling.textContent;
 			const elDefnText = element_defn.text;
 			expect(textNodeText).toBe(elDefnText);
 		 });
