@@ -39,9 +39,7 @@ describe("The DOM", () => {
 		    expect(domType.attrs).toHaveLength(nElDefnAttrs); 
 		 });
 		 test("Should have children be defined.", () => {
-			for(const child of domType.children) {
-			   expect(child).toBeDefined();
-			}
+			for(const child of domType.children) expect(child).toBeDefined();
 		 });
 		 test("Should have as many children as defined in 'element_defn'.", () => {
 			const nElDefnChildren = element_defn.children.length; 
@@ -112,20 +110,13 @@ describe("The DOM", () => {
 		 domCrud.addEls(element_defns, document);
 		 elements = Utils.enumChildren(container);
 
-		 domTypes = {
-			attrs: [],
-			elDefnAttrs: [],
-			textNode: [],
-			children: []
-		 };
+		 domTypes = { attrs: [], elDefnAttrs: [], textNode: [], children: [] };
 
-		 for(const element of elements)
-			domTypes.attrs = [element.attributes, ...domTypes.attrs];
+		 for(const element of elements) domTypes.attrs = [element.attributes, ...domTypes.attrs];
 
 		 for(const element_defn of element_defns) {
 			let edAttrs: Attr[] = [];
-			for(const attrs of element_defn.attrs)
-			   edAttrs = [attrs, ...edAttrs];
+			for(const attrs of element_defn.attrs) edAttrs = [attrs, ...edAttrs];
 			domTypes.elDefnAttrs = [edAttrs, ...domTypes.elDefnAttrs];
 		 }
 
@@ -138,8 +129,7 @@ describe("The DOM", () => {
 	  });
 	  describe("All existing in the page.", () => {
 		 test("Should all be defined.", () => {
-			for(const element of elements)
-			   expect(element).toBeDefined();
+			for(const element of elements) expect(element).toBeDefined();
 		 });
 		 test("Should all have attributes be defined.", () => {
 			for(const element of elements) {
@@ -182,9 +172,7 @@ describe("The DOM", () => {
 			for(const attr of domTypes.attrs) {
 			   let attrObjs: IAttrObj[] = [];
 			   rangeItNums.forEach(idx => {
-				  if(attr[idx]) {
-					 attrObjs = Utils.attrToObjs(attrObjs, attr[idx]);
-				  }
+				  if(attr[idx]) attrObjs = Utils.attrToObjs(attrObjs, attr[idx]);
 			   });
 			   attrsObjs = [attrObjs, ...attrsObjs];
 			}
@@ -210,8 +198,7 @@ describe("The DOM", () => {
 			for(const childrenColl of domTypes.children) {
 			   for(const child of childrenColl) {
 				  let childAttrObjs: IAttrObj[] = [];
-				  for(const attr of child.attributes)
-					 childAttrObjs = Utils.attrToObjs(childAttrObjs, attr);
+				  for(const attr of child.attributes) childAttrObjs = Utils.attrToObjs(childAttrObjs, attr);
 				  childAttrsObjs = [childAttrObjs, ...childAttrsObjs];
 			   }
 			}
