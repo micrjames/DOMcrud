@@ -6,4 +6,5 @@ export interface DOMtype {
 }
 
 export type DOMtypes = {
+   [key in keyof DOMtype]: Array<DOMtype[key]>;
 };

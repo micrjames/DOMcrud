@@ -15,8 +15,8 @@ describe("The DOM", () => {
 	  let rangeItNums: number[];
 	  beforeAll(() => {
 		 domCrud = new DOMcrud(container);
-		 domCrud.addEl(element_defn, document);
 		 element_defn = test_element_cfg;
+		 domCrud.addEl(element_defn, document);
 		 element = container.firstElementChild,
 		 domType = {
 			attrs: element.attributes,
@@ -103,38 +103,38 @@ describe("The DOM", () => {
    describe("Elements created within a page", () => {
 	  let domCrud: DOMcrud; 
 	  let element_defns: IEl[];
+	  let domTypes: DOMtypes;
 	  let elements: Element[]; 
-	  let attrs: NamedNodeMap[];
-	  let elDefnsAttrs: Attr[][];
-	  let textNodes: Node[];
-	  let children: HTMLCollection[];
 	  let rangeItNums: number[];
 	  beforeAll(() => {
 		 domCrud = new DOMcrud(container);
 		 element_defns = test_elements_cfg;
 		 domCrud.addEls(element_defns, document);
 		 elements = Utils.enumChildren(container);
-		 
-		 attrs = [];
-		 for(const element of elements)
-			attrs = [element.attributes, ...attrs];
 
-		 elDefnsAttrs = [];
+		 domTypes = {
+			attrs: [],
+			elDefnAttrs: [],
+			textNode: [],
+			children: []
+		 };
+
+		 for(const element of elements)
+			domTypes.attrs = [element.attributes, ...domTypes.attrs];
+
 		 for(const element_defn of element_defns) {
 			let edAttrs: Attr[] = [];
 			for(const attrs of element_defn.attrs)
 			   edAttrs = [attrs, ...edAttrs];
-			elDefnsAttrs = [edAttrs, ...elDefnsAttrs];
+			domTypes.elDefnAttrs = [edAttrs, ...domTypes.elDefnAttrs];
 		 }
 
-		 children = [];
-		 textNodes = [];
 		 for(const element of elements) {
-			children = [element.children, ...children];
-			textNodes = [element.previousSibling, ...textNodes];
+			domTypes.children = [element.children, ...domTypes.children];
+			domTypes.textNode = [element.previousSibling, ...domTypes.textNode];
 		 }
 
-		 rangeItNums = [...new Range(attrs.length)];
+		 rangeItNums = [...new Range(domTypes.attrs.length)];
 	  });
 	  describe("All existing in the page.", () => {
 		 test("Should all be defined.", () => {
@@ -148,8 +148,8 @@ describe("The DOM", () => {
 			}
 		 });
 		 test("Should have as many attributes as defined in 'element_defns'.", () => {
-			const nElDefnsAttrs = elDefnsAttrs.length; 
-			expect(attrs).toHaveLength(nElDefnsAttrs); 
+			const nElDefnsAttrs = domTypes.elDefnAttrs.length; 
+			expect(domTypes.attrs).toHaveLength(nElDefnsAttrs); 
 		 });
 		 test("Should have children be defined.", () => {
 			for(const element of elements)
@@ -179,7 +179,7 @@ describe("The DOM", () => {
 		 });
 		 test("Should all have the attributes set in 'element_defns'.", () => {
 			let attrsObjs: IAttrObj[][] = [];
-			for(const attr of attrs) {
+			for(const attr of domTypes.attrs) {
 			   let attrObjs: IAttrObj[] = [];
 			   rangeItNums.forEach(idx => {
 				  if(attr[idx]) {
@@ -191,7 +191,7 @@ describe("The DOM", () => {
 			  
 			for(const attrObjs of attrsObjs) 
 			   for(const attrObj of attrObjs) {
-				  for(const elDefnAttrs of elDefnsAttrs)
+				  for(const elDefnAttrs of domTypes.elDefnAttrs)
 					 for(const attr of elDefnAttrs) {
 						expect(attrObj).toHaveProperty(attr.name, attr.value);
 					 }
@@ -207,7 +207,7 @@ describe("The DOM", () => {
 		 });
 		 test("Should all have the children appended to the element as set in 'element_defns'.", () => {
 			let childAttrsObjs: IAttrObj[][] = [];
-			for(const childrenColl of children) {
+			for(const childrenColl of domTypes.children) {
 			   for(const child of childrenColl) {
 				  let childAttrObjs: IAttrObj[] = [];
 				  for(const attr of child.attributes)
@@ -217,18 +217,18 @@ describe("The DOM", () => {
 			}
 			for(const childAttrObjs of childAttrsObjs)
 			   for(const childAttrObj of childAttrObjs)
-				  for(const elDefnAttrs of elDefnsAttrs)
+				  for(const elDefnAttrs of domTypes.elDefnAttrs)
 					 for(const elDefnAttr of elDefnAttrs)
 						expect(childAttrObj).toHaveProperty(elDefnAttr.name, elDefnAttr.value);
 		 });
 		 test("Should all have textnodes appended to the container.", () => {
-			for(const textNode of textNodes) {
+			for(const textNode of domTypes.textNode) {
 			   const isTextNodeConnected = textNode.isConnected;
 			   expect(isTextNodeConnected).toBeTruthy();
 			}
 	     });
 		 test("Should all have textnodes with the text defined in 'element_defns'.", () => {
-			for(const textNode of textNodes) {
+			for(const textNode of domTypes.textNode) {
 			   const textNodeText = textNode.textContent;
 
 			   for(const element_defn of element_defns) {
