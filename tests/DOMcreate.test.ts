@@ -17,7 +17,7 @@ describe("The DOM", () => {
 		 domCrud = new DOMcrud(container);
 		 element_defn = test_element_cfg;
 		 domCrud.addEl(element_defn, document);
-		 element = container.firstElementChild,
+		 element = container.firstElementChild;
 		 domType = {
 			attrs: element.attributes,
 			elDefnAttrs: element_defn.attrs, 

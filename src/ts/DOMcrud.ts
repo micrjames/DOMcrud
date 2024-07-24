@@ -1,13 +1,16 @@
 import { IEl } from "./iters";
 import { DOMCreate } from "./DOMcreate";
+import { DOMread } from "./DOMread";
 
 export class DOMcrud {
    private parentEl: (Element | null);
    private _domCreate: DOMCreate;
+   private _domRead: DOMread;
 
    constructor(context: (Element | null)) {
 	  this.parentEl = context;
 	  this._domCreate = new DOMCreate();
+	  this._domRead = new DOMread();
    }
 
    addEls(els: IEl[], document: Document) {
@@ -22,5 +25,9 @@ export class DOMcrud {
 		 this.parentEl?.appendChild(element);
 		 if(el.children) this._domCreate.addChildren(element, el.children, document);
 	  }
+   }
+
+   out(document: Document): Node[] {
+	  return this._domRead.out(document);
    }
 }
