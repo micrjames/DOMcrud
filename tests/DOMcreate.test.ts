@@ -3,7 +3,7 @@ import { DOMtype, DOMtypes } from "./DOMtypes";
 import { IEl, IAttrObj } from "../src/ts/iters";
 import { test_element_cfg, test_elements_cfg } from "./element_cfgs"
 import { container, document } from "./incs";
-import { Range } from "../../Range/Range";
+import { Range } from "../Range/Range";
 import { Utils } from "../src/ts/utils";
 
 describe("The DOM", () => {
