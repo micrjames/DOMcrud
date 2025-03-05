@@ -1,9 +1,12 @@
 // Creates a DOM node with ID and text for recipe/step management.
 
-function addNode(id: string, data: string): HTMLElement {
-    const node = document.createElement('div');
+function addNode(id: string, data: string, tagName: string = 'div'): HTMLElement {
+    if(!id || typeof id !== 'string' || id.trim() === '')
+	   throw new Error('Invalid ID provided');
+     
+    const node = document.createElement(tagName);
 	node.id = id;
-	node.innerText = data;
+	node.textContent = data ?? '';
 
 	return node;
 }
