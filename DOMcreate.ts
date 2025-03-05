@@ -10,3 +10,13 @@ function addNode(id: string, data: string, tagName: string = 'div'): HTMLElement
 
 	return node;
 }
+
+function updateNode(id: string, data: string): void {
+    if(!id || typeof id !== 'string' || id.trim() === '')
+	   throw new Error('Invalid ID provided');
+
+	const node = document.getElementById(id);
+	if(!node) throw new Error(`Node with id ${id} not found`);
+
+	node.textContent = data ?? '';
+}
