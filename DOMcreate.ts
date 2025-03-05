@@ -15,8 +15,24 @@ function updateNode(id: string, data: string): void {
     if(!id || typeof id !== 'string' || id.trim() === '')
 	   throw new Error('Invalid ID provided');
 
-	const node = document.getElementById(id);
-	if(!node) throw new Error(`Node with id ${id} not found`);
+    // We assume all element ID's are unique as per HTML standard
+    let targetNode = null;
+	const body = document.body;
 
-	node.textContent = data ?? '';
+	function searchElement(element: Element): boolean {
+		if(element.id === id) {
+			targetNode = element;
+			return true;
+		}
+		for(let child of element.children) {
+			if(searchElement(child))
+				return true;
+		}
+		return false;
+	}
+
+	if(body) searchElement(body);
+	if(!targetNode) throw new Error(`Node with ${id} not found`);
+
+	targetNode.textContent = data ?? '';
 }
