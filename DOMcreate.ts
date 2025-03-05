@@ -16,15 +16,16 @@ function updateNode(id: string, data: string): void {
 	   throw new Error('Invalid ID provided');
 
     // We assume all element ID's are unique as per HTML standard
-    let targetNode = null;
-	const body = document.body;
+    let targetNode: HTMLElement | null = null;
+	const body: HTMLElement | null = document.body;
 
-	function searchElement(element: Element): boolean {
+	function searchElement(element: HTMLElement): boolean {
 		if(element.id === id) {
 			targetNode = element;
 			return true;
 		}
-		for(let child of element.children) {
+		const children: HTMLCollectionOf<HTMLElement> = element.children as HTMLCollectionOf<HTMLElement>;
+		for(let child of children) {
 			if(searchElement(child))
 				return true;
 		}
