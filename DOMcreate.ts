@@ -51,8 +51,8 @@ export function updateNode(id: string, data: string): void {
 }
 
 export function removeNode(id: string): void {
-	if (nodes[id]) {
-	    nodes[id].remove();
-	    delete nodes[id];
-	}
+	const node = nodes[id];
+	if (!node) throw new Error(`Node with id ${id} not found`);
+	node.remove();
+	delete nodes[id];
 }
