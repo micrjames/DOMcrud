@@ -4,7 +4,7 @@ import { NodeType } from "./utils";
 
 export const nodes: NodeType = {};
 
-export function addNode(id: string, data: string, tagName: string = 'div'): HTMLElement {
+export function addNode(document: Document, id: string, data: string, tagName: string = 'div'): HTMLElement {
     if(!id || typeof id !== 'string' || id.trim() === '')
 	   throw new Error('Invalid ID provided');
      
@@ -55,4 +55,9 @@ export function removeNode(id: string): void {
 	if (!node) throw new Error(`Node with id ${id} not found`);
 	node.remove();
 	delete nodes[id];
+}
+
+export function removeChildNodes(context: Element) {
+	while(context.firstChild)
+	   context.removeChild(context.lastChild as Element);
 }
