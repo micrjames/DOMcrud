@@ -1,6 +1,6 @@
-import { addNode, updateNode, removeNode, removeChildNodes } from "../DOMcrud";
+import { nodes, addNode, updateNode, removeNode, removeChildNodes } from "../DOMcrud";
 import { JSDOM } from "jsdom";
-require('@testing-library/jest-dom');
+import "@testing-library/jest-dom";
 
 import fs from 'fs';
 import path from 'path';
@@ -24,9 +24,24 @@ describe("DOM CRUD", () => {
     });
     describe("CD", () => {
 		beforeEach(() => {
+			removeChildNodes(app);
+			Object.keys(nodes).forEach(id => delete nodes[id]);
 		});
-	    test.todo("Creates a node.");
-	    test.todo("Removes a node.");
+		describe("C", () => {
+			let f1: HTMLElement;
+			beforeAll(() => {
+				f1 = addNode(document, 'f1', 'hello');
+			});
+			test("Is present in the document.", () => {
+				app.appendChild(f1);
+				expect(f1).toBeInTheDocument();
+			});
+			test("has correct attributes.", () => {
+				expect(f1).toHaveAttribute("id", "f1");
+				expect(f1).toHaveTextContent("hello");
+			});
+		});
+		test.todo("Removes a node.");
     });
     describe("Update", () => {
 		beforeEach(() => {
