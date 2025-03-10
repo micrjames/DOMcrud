@@ -1,9 +1,8 @@
+import { NodeType } from "./utils";
+
 // Creates a DOM node with ID and text for recipe/step management.
 
-type NodeType = {
-	[id: string]: HTMLElement
-};
-const nodes: NodeType = {};
+export const nodes: NodeType = {};
 
 export function addNode(id: string, data: string, tagName: string = 'div'): HTMLElement {
     if(!id || typeof id !== 'string' || id.trim() === '')
