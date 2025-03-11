@@ -1,4 +1,4 @@
-import { nodes, addNode, updateNode, removeNode, removeChildNodes } from "../DOMcrud";
+import { DOMManager } from "../DOMManager";
 import { JSDOM } from "jsdom";
 import "@testing-library/jest-dom";
 
@@ -10,10 +10,12 @@ describe("DOM CRUD", () => {
 	let document: Document;
 	let body: HTMLBodyElement | null;
 	let app: HTMLElement | null;
+	let domManager: DOMManager;
     beforeAll(() => {
 		const html = fs.readFileSync(path.resolve(__dirname, "..", 'index.html'), 'utf8');
 		dom = new JSDOM(html, {runScripts: 'dangerously'});
 		document = dom.window.document;
+		domManager = new DOMManager(document);
 		body = document.body as HTMLBodyElement;
 		if (!body) {
 			throw new Error("Document body is missing");
@@ -24,21 +26,20 @@ describe("DOM CRUD", () => {
     });
     describe("CD", () => {
 		beforeEach(() => {
-			removeChildNodes(app);
-			Object.keys(nodes).forEach(id => delete nodes[id]);
+			domManager.removeChildNodes(app);
 		});
 		describe("C", () => {
-			let f1: HTMLElement;
+			let node: HTMLElement;
 			beforeAll(() => {
-				f1 = addNode(document, 'f1', 'hello');
+				node = domManager.addNode('f1', 'hello');
 			});
 			test("Is present in the document.", () => {
-				app.appendChild(f1);
-				expect(f1).toBeInTheDocument();
+				app.appendChild(node);
+				expect(node).toBeInTheDocument();
 			});
 			test("has correct attributes.", () => {
-				expect(f1).toHaveAttribute("id", "f1");
-				expect(f1).toHaveTextContent("hello");
+				expect(node).toHaveAttribute("id", "f1");
+				expect(node).toHaveTextContent("hello");
 			});
 		});
 		test.todo("Removes a node.");
